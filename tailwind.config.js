@@ -1,0 +1,13 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ['./index.html', './src/**/*.{vue,js,jsx,tsx,ts}'],
+  theme: {
+    extend: {
+      backgroundImage: {
+        'app': 'url("/image/1.jpg")'
+      }
+    },
+  },
+  plugins: [],
+}
+
