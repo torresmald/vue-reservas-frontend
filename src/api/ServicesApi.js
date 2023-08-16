@@ -5,5 +5,4 @@ export default {
     getServices (){
        return api.get('/services')
     }
-
 }
