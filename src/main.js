@@ -13,7 +13,7 @@ import router from './router'
 const app = createApp(App)
 
 const $toast = useToast({
-    duration: 3000,
+    duration: 2000,
     position: 'top-right'
 })
 

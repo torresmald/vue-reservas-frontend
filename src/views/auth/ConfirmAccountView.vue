@@ -16,7 +16,7 @@ onMounted(async () => {
       type: "success",
     });
     setTimeout(() => {      
-      router.push('/login')
+      router.push({name: 'login'})
     }, 3000);
   } catch (error) {
     toast.open({

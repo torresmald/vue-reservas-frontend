@@ -9,7 +9,7 @@ const config = {
                 label: 'block mb-1 font-bold text-lg text-white',
                 input: 'w-full p-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 flex-1',
                 inner: 'flex',
-                suffixIcon: 'text-blue-500 w-12 h-12 inline-block relative -translate-x-14 translate-y'
+                suffixIcon: 'text-blue-500 w-12 h-12 relative -translate-x-14 translate-y'
             },
             submit: {
                 input: '$reset bg-blue-500 hover:bg-blue-600 rounded-lg font-bold text-white p-3 mt-10 w-full'

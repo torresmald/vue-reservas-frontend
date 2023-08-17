@@ -2,6 +2,10 @@
 import { inject } from "vue";
 import { reset } from "@formkit/vue";
 import { registerUser } from "../../api/AuthApi.js";
+import { useRouter } from "vue-router";
+
+
+const router = useRouter()
 
 const toast = inject("toast");
 
@@ -19,6 +23,9 @@ const handleSumit = async (data) => {
       type: "success",
     });
     reset("registerForm");
+    setTimeout(() => {
+      router.push({name: 'login'})
+    }, 3000);
   } catch (error) {
     toast.open({
       message: error.response.data.msg,
