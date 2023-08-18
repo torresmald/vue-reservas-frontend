@@ -21,7 +21,7 @@ const handleSumit = async (formData) => {
       message: data.msg,
       type: "success",
     });
-    reset("registerForm");
+    reset("loginForm");
     setTimeout(() => {
       router.push({ name: "mis-citas" });
     }, 3000);
@@ -44,7 +44,7 @@ const handleSumit = async (formData) => {
     :actions="false"
     incomplete-message="Revisa los Errores"
     @submit="handleSumit"
-    id="registerForm"
+    id="loginForm"
   >
     <FormKit
       type="text"

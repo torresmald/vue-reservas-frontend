@@ -1,15 +1,8 @@
 <script setup>
-import { auth } from "../../api/AuthApi.js";
-import { onMounted } from "vue";
-import {logout} from '../../api/AuthApi.js'
+import { useUsersStore } from '../../stores/useUsers';
 
-onMounted(async () => {
-  try {
-    const { data } = await auth();
-  } catch (error) {
-    console.log(error);
-  }
-});
+
+const user = useUsersStore()
 </script>
 
 <template>
@@ -17,10 +10,10 @@ onMounted(async () => {
     <h1 class="text-2xl lg:text-6xl font-black text-white">Reservas</h1>
     <div class="flex flex-col space-y-5">
       <div class="flex gap-2 items-center">
-        <p class="text-white text-right">Hola: {{ data?.name }}</p>
+        <p class="text-white text-right">Hola: {{ user.getUsername }}</p>
         <button
           class="bg-red-600 hover:bg-red-800 p-2 text-white uppercase text-xs font-black rounded-lg"
-          @click="logout"
+          @click="user.logout"
         >
           Cerrar Sesion
         </button>

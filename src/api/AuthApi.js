@@ -1,12 +1,10 @@
 import api from '../helpers/axios.js';
-import { getJWT, deleteJWT } from '../helpers/index.js';
+
+
 
 
 export function auth (){
-    const token = getJWT()
-    return api.get('auth/user', {headers: {
-        Authorization: `Bearer ${token}`
-    }})
+    return api.get('auth/user')
 }
 
 export function registerUser (data){
@@ -21,6 +19,3 @@ export function loginUser (data){
     return api.post('auth/login', data)
 }
 
-export function logout (){
-    deleteJWT()
-}

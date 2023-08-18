@@ -1,3 +1,5 @@
+import { parse, formatISO } from 'date-fns'
+
 export const formatCurrency = price => {
     return Number(price).toLocaleString('es-ES', {
         style: 'currency',
@@ -16,4 +18,9 @@ export const getJWT = () => {
 
 export const deleteJWT = () => {
     localStorage.removeItem('token')
+}
+
+export const formatDates = date => {
+    const newDate = parse(date, 'dd/MM/yyyy', new Date())
+    return formatISO(newDate)
 }

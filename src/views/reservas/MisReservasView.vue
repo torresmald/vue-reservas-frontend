@@ -1,5 +1,6 @@
 <script setup>
-
+import {useUsersStore} from '../../stores/useUsers.js'
+const user = useUsersStore()
 </script>
 
 <template>
