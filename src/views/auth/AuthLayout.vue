@@ -1,9 +1,11 @@
 <script setup>
-import { RouterView } from "vue-router";
+import { RouterView, useRoute } from "vue-router";
 const authRoutes = [
   { name: "register", text: "Registro" },
-  { name: "login", text: "Login" },
+  {name: 'olvide-password', text: 'Recuperar Password'},
+  { name: "login", text: "Login" }
 ];
+const route = useRoute()
 </script>
 
 <template>
@@ -13,10 +15,11 @@ const authRoutes = [
       class="mt-10 flex flex-col items-center space-y-5 lg:flex-row lg:justify-between lg:space-y-0"
     >
       <RouterLink
-        v-for="route in authRoutes"
+        v-for="authRoute in authRoutes"
         class="uppercase font-bold text-white"
-        :to="{ name: route.name }"
-        >{{ route.text }}
+        :class="{'hidden': route.name === authRoute.name}"
+        :to="{ name: authRoute.name }"
+        >{{ authRoute.text }}
       </RouterLink>
     </nav>
   </div>

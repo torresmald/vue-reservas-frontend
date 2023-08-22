@@ -36,6 +36,22 @@ const router = createRouter({
               component: () => import('../views/reservas/DetallesReserva.vue')
             }
           ]
+        },
+        {
+          path: ':id/editar',
+          component: () => import('../views/reservas/EditReservaLayout.vue'),
+          children: [
+            {
+              path: '',
+              name: 'editar-cita',
+              component: () => import('../views/reservas/ServicesView.vue')
+            },
+            {
+              path: 'detalles',
+              name: 'editar-detalles-cita',
+              component: () => import('../views/reservas/DetallesReserva.vue')
+            }
+          ]
         }
       ]
     },
@@ -58,6 +74,16 @@ const router = createRouter({
           path: 'login',
           name: 'login',
           component: () => import('../views/auth/LoginView.vue'),
+        },
+        {
+          path: 'olvide-password',
+          name: 'olvide-password',
+          component: () => import('../views/auth/ForgotPasswordView.vue'),
+        },
+        {
+          path: 'olvide-password/:token',
+          name: 'new-password',
+          component: () => import('../views/auth/NewPasswordView.vue'),
         }
       ]
     }

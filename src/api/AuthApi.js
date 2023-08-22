@@ -19,3 +19,15 @@ export function loginUser (data){
     return api.post('auth/login', data)
 }
 
+export function forgotPasswordUser (data){
+    return api.post('auth/forgot-password', data)
+}
+
+export function verifiyPasswordResetToken (token){
+    return api.get(`auth/forgot-password/${token}`)
+}
+
+export function updatePassword(token, data){
+    return api.post(`auth/forgot-password/${token}`, data)
+}
+

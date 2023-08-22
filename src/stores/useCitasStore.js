@@ -1,19 +1,23 @@
 import { defineStore } from 'pinia'
 import { ref, computed, onMounted, watch } from 'vue';
-import { create, getByDate } from '../api/CitasApi.js'
+import { create, getByDate, deleteCitaId, updateCitaById } from '../api/CitasApi.js'
 import { inject } from "vue";
-import { formatDates } from '../helpers/index.js'
+import { formatDates, convertToDate } from '../helpers/index.js'
 import { useRouter } from 'vue-router'
+import { useUsersStore } from './useUsersStore.js'
 
 export const useCitasStore = defineStore('citas', () => {
 
     const citas = ref([]);
     const date = ref('');
-    const hours = ref([]);
     const time = ref('');
+    const hours = ref([]);
     const toast = inject("toast");
     const router = useRouter()
     const citasDay = ref([])
+    const citaId = ref('')
+
+    const user = useUsersStore()
 
     onMounted(() => {
         const startHour = 10;
@@ -25,9 +29,14 @@ export const useCitasStore = defineStore('citas', () => {
 
     watch(date, async () => {
         time.value = ''
-        if(date.value === '') return
-        const {data} = await getByDate(date.value)
-        citasDay.value = data
+        if (date.value === '') return
+        const { data } = await getByDate(date.value)
+        if (citaId.value) {
+            citaId.value = data.filter(cita => cita._id !== citaId.value)
+            time.value = data.filter(cita => cita._id !== citaId.value)[0]
+        } else {
+            citasDay.value = data
+        }
     })
 
 
@@ -52,33 +61,65 @@ export const useCitasStore = defineStore('citas', () => {
         return citas.value.reduce((total, acc) => total + acc.price, 0)
     }
 
-    const createCita = async () => {
+    const saveCita = async () => {
         const cita = {
             services: citas.value.map(item => item._id),
             date: formatDates(date.value),
             time: time.value,
             totalPay: totalPay()
         }
-        try {     
-            const { data } = await create(cita)
-            toast.open({
-                message: data.msg,
-                type: "success",
-            });
-            setTimeout(() => {
-                router.push({ name: 'mis-citas' })
-            }, 3000);
-            deleteAllServices()
-        } catch (error) {
-            console.log(error);
+
+        if (citaId.value) {
+            try {
+                const { data } = await updateCitaById(citaId.value, cita)
+                toast.open({
+                    message: data.msg,
+                    type: "success",
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            try {
+                const { data } = await create(cita)
+                toast.open({
+                    message: data.msg,
+                    type: "success",
+                });
+            } catch (error) {
+                console.log(error);
+            }
         }
+
+        deleteAllServices()
+        user.getCitas()
+        setTimeout(() => {            
+            router.push({ name: 'mis-citas' })
+        }, 3000);
+
     }
 
+    const setSelectedCita = async cita => {
+        citas.value = cita.services
+        const dateConverted = convertToDate(cita.date)
+        date.value = dateConverted
+        time.value = cita.time
+    }
 
+    const deleteCita = async id => {
+        const { data } = await deleteCitaId(id)
+        toast.open({
+            message: data.msg,
+            type: "success",
+        });
+        user.citas = user.citas.filter(cita => cita._id !== id)
+
+    }
     const deleteAllServices = () => {
         citas.value = []
         date.value = ''
         time.value = ''
+        citaId.value = ''
     }
 
     const isServiceSelected = computed(() => {
@@ -98,7 +139,7 @@ export const useCitasStore = defineStore('citas', () => {
     })
 
     const disableTime = computed(() => {
-       return (hour) => { return citasDay.value.find((cita) => cita.time === hour)}
+        return (hour) => { return citasDay.value.find((cita) => cita.time === hour) }
     })
 
     return {
@@ -112,9 +153,11 @@ export const useCitasStore = defineStore('citas', () => {
         totalPay,
         noServicesSelected,
         isValidReservation,
-        createCita,
+        saveCita,
         deleteAllServices,
         isDateSelected,
-        disableTime
+        disableTime,
+        deleteCita,
+        setSelectedCita
     }
 })

@@ -1,5 +1,5 @@
 <script setup>
-import { useUsersStore } from '../../stores/useUsers';
+import { useUsersStore } from '../../stores/useUsersStore.js';
 
 
 const user = useUsersStore()

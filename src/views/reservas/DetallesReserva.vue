@@ -97,7 +97,7 @@ const disableDate = (date) => {
     <div class="flex justify-center" v-if="citas.isValidReservation">
       <button
         class="w-full md:w-auto lg:w-96 bg-blue-500 p-3 rounded-lg font-black text-white hover:bg-blue-800"
-        @click="citas.createCita"
+        @click="citas.saveCita"
       >
         Confirmar
       </button>

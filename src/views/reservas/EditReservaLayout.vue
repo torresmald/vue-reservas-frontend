@@ -1,22 +1,31 @@
 <script setup>
+import { useRoute, useRouter } from "vue-router";
 import { onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { getCitaById } from "../../api/CitasApi.js";
 import {useCitasStore} from '../../stores/useCitasStore.js'
 const route = useRoute();
+const router = useRouter();
+
 const citas = useCitasStore()
 
-onMounted(() => {
-  citas.deleteAllServices()
+onMounted(async () => {
+  const { id } = route.params;
+  try {
+    const {data} = await getCitaById(id)
+    citas.setSelectedCita(data)
+  } catch (error) {
+    router.push({name: 'mis-citas'})
+  }
 });
 </script>
 
 <template>
   <nav class="my-5 flex gap-3">
     <RouterLink
-      :to="{ name: 'nueva-cita' }"
+      :to="{ name: 'editar-cita' }"
       class="flex-1 text-center p-3 uppercase font-extrabold hover:bg-blue-800 hover:text-white"
       :class="
-        route.name === 'nueva-cita'
+        route.name === 'editar-cita'
           ? 'bg-blue-600 text-white'
           : 'bg-white text-blue-500'
       "
@@ -24,10 +33,10 @@ onMounted(() => {
       Servicios
     </RouterLink>
     <RouterLink
-      :to="{ name: 'detalles-cita' }"
+      :to="{ name: 'editar-detalles-cita' }"
       class="flex-1 text-center p-3 uppercase font-extrabold hover:bg-blue-800 hover:text-white"
       :class="
-        route.name === 'detalles-cita'
+        route.name === 'editar-detalles-cita'
           ? 'bg-blue-600 text-white'
           : 'bg-white text-blue-500'
       "

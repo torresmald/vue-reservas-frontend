@@ -36,7 +36,7 @@ const handleSumit = async (formData) => {
 </script>
 
 <template>
-  <h1 class="text-6xl font-extrabold text-white text-center mt-10">
+  <h1 class="text-6xl font-extrabold text-white text-center m-10 ">
     Iniciar Sesión
   </h1>
   <FormKit

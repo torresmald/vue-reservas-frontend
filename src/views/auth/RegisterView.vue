@@ -36,7 +36,7 @@ const handleSumit = async (data) => {
 </script>
 
 <template>
-  <h1 class="text-6xl font-extrabold text-white text-center mt-10">
+  <h1 class="text-6xl font-extrabold text-white text-center m-10">
     Crea una Cuenta
   </h1>
   <FormKit
