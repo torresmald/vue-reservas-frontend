@@ -7,6 +7,10 @@ export function auth (){
     return api.get('auth/user')
 }
 
+export function admin (){
+    return api.get('auth/admin')
+}
+
 export function registerUser (data){
     return api.post('/auth/register', data)
 }

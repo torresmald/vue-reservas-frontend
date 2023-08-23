@@ -8,8 +8,11 @@ const route = useRoute();
 const router = useRouter();
 
 const validToken = ref(false);
+
+const { token } = route.params;
+
 onMounted(async () => {
-  const { token } = route.params;
+  
   try {
     const { data } = await verifiyPasswordResetToken(token);
     toast.open({
@@ -30,18 +33,18 @@ const handleIconClick = (node) => {
   node.props.type = node.props.type === "password" ? "text" : "password";
 };
 
-const handleSumit = async ({password}) => {
+const handleSubmit = async ({ password }) => {
   try {
-    const {data} = await updatePassword(token, password)
-    console.log(data);
+    const { data } = await updatePassword(token, { password });
     toast.open({
       message: data.msg,
       type: "success",
     });
     setTimeout(() => {
-        router.push({name: 'login'})
+      router.push({ name: "login" });
     }, 3000);
   } catch (error) {
+    console.log(error);
     toast.open({
       message: error.response.data.msg,
       type: "error",
@@ -59,7 +62,7 @@ const handleSumit = async ({password}) => {
       type="form"
       :actions="false"
       incomplete-message="Revisa los Errores"
-      @submit="handleSumit"
+      @submit="handleSubmit"
       id="forgotForm"
     >
       <FormKit

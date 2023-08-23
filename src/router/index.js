@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import {auth} from '../api/AuthApi.js'
+import {auth, admin} from '../api/AuthApi.js'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +9,19 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/admin/AdminLayout.vue'),
+      meta: {requiresAdmin: true},
+      children: [
+        {
+          path: '',
+          name: 'admin-citas',
+          component: () => import('../views/admin/CitasView.vue')
+        }
+      ]
     },
     {
       path: '/reservas',
@@ -94,11 +107,29 @@ router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some(url => url.meta.requiresAuth)
   if(requiresAuth){
     try {
-      await auth()
+      const {data} = await auth()
+      if(data.admin){
+        next({name: 'admin'})
+      } else {
+        next()
+      }
+    } catch (error) {
+      next({name: 'login'})
+    }
+  }else {
+    next()
+  }
+})
+
+
+router.beforeEach(async (to, from, next) => {
+  const requiresAdmin = to.matched.some(url => url.meta.requiresAdmin)
+  if(requiresAdmin){
+    try {
+      const {data} = await admin()
       next()
     } catch (error) {
       next({name: 'login'})
-      
     }
   }else {
     next()

@@ -32,7 +32,7 @@ export const useCitasStore = defineStore('citas', () => {
         if (date.value === '') return
         const { data } = await getByDate(date.value)
         if (citaId.value) {
-            citaId.value = data.filter(cita => cita._id !== citaId.value)
+            citasDay.value = data.filter(cita => cita._id !== citaId.value)
             time.value = data.filter(cita => cita._id !== citaId.value)[0]
         } else {
             citasDay.value = data
@@ -135,7 +135,7 @@ export const useCitasStore = defineStore('citas', () => {
     })
 
     const isDateSelected = computed(() => {
-        return date.value
+        return date.value ? true : false
     })
 
     const disableTime = computed(() => {
