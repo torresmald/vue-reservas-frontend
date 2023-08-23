@@ -7,9 +7,8 @@ const route = useRoute();
 const router = useRouter();
 
 const citas = useCitasStore()
-
+const { id } = route.params;
 onMounted(async () => {
-  const { id } = route.params;
   try {
     const {data} = await getCitaById(id)
     citas.setSelectedCita(data)

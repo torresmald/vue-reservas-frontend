@@ -33,7 +33,7 @@ export const useCitasStore = defineStore('citas', () => {
         const { data } = await getByDate(date.value)
         if (citaId.value) {
             citasDay.value = data.filter(cita => cita._id !== citaId.value)
-            time.value = data.filter(cita => cita._id !== citaId.value)[0]
+            time.value = data.filter(cita => cita._id === citaId.value)[0].time
         } else {
             citasDay.value = data
         }
@@ -68,6 +68,7 @@ export const useCitasStore = defineStore('citas', () => {
             time: time.value,
             totalPay: totalPay()
         }
+        console.log(cita);
 
         if (citaId.value) {
             try {
@@ -104,6 +105,7 @@ export const useCitasStore = defineStore('citas', () => {
         const dateConverted = convertToDate(cita.date)
         date.value = dateConverted
         time.value = cita.time
+        citaId.value = cita._id
     }
 
     const deleteCita = async id => {
