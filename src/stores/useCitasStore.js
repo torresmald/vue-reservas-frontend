@@ -68,7 +68,6 @@ export const useCitasStore = defineStore('citas', () => {
             time: time.value,
             totalPay: totalPay()
         }
-        console.log(cita);
 
         if (citaId.value) {
             try {
